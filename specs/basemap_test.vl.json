@@ -1,0 +1,15 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 420,
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [-18, -36],
+    "rotate": [-132, 0]
+  },
+  "data": {
+    "url": "data/STE_2021_AUST_GDA2020.json",
+    "format": {"type": "topojson", "feature": "states"}
+  },
+  "mark": {"type": "geoshape", "fill": "#e8e4dc", "stroke": "white"}
+}
