@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Every big drought hit a different part of Australia",
+    "subtitle": [
+      "Average yearly rainfall during the drought, as a % of each state's 1961–1990 average.",
+      "NSW includes the ACT. Choose a drought from the menu below the map."
+    ],
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 12,
+    "offset": 12
+  },
+  "width": 500,
+  "height": 420,
+  "params": [
+    {
+      "name": "drought",
+      "value": "tinderbox",
+      "bind": {
+        "input": "select",
+        "options": ["federation", "wwii", "millennium", "tinderbox"],
+        "labels": [
+          "Federation Drought (1900–1902)",
+          "World War II Drought (1937–1945)",
+          "Millennium Drought (1997–2009)",
+          "Tinderbox Drought (2017–2019)"
+        ],
+        "name": "Choose a drought: "
+      }
+    }
+  ],
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [-18, -36],
+    "rotate": [-132, 0]
+  },
+  "data": {
+    "url": "data/STE_2021_AUST_GDA2020.json",
+    "format": {"type": "topojson", "feature": "states"}
+  },
+  "transform": [
+    {
+      "lookup": "properties.state",
+      "from": {
+        "data": {"url": "data/drought_rain.csv"},
+        "key": "state",
+        "fields": ["federation", "wwii", "millennium", "tinderbox"]
+      }
+    },
+    {"calculate": "datum[drought]", "as": "rain_pct"},
+    {
+      "calculate": "datum.rain_pct < 60 ? 'Far drier than normal' : datum.rain_pct < 80 ? 'Much drier than normal' : datum.rain_pct < 95 ? 'Drier than normal' : datum.rain_pct < 105 ? 'About normal' : datum.rain_pct < 120 ? 'Wetter than normal' : 'Much wetter than normal'",
+      "as": "rain_label"
+    }
+  ],
+  "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
+  "encoding": {
+    "color": {
+      "field": "rain_pct",
+      "type": "quantitative",
+      "title": "Rainfall (% of normal)",
+      "scale": {
+        "type": "threshold",
+        "domain": [60, 80, 95, 105, 120],
+        "range": ["#8c510a", "#bf812d", "#dfc27d", "#f2efe6", "#80cdc1", "#35978f"]
+      },
+      "legend": {"orient": "bottom", "direction": "horizontal"}
+    },
+    "tooltip": [
+      {"field": "properties.state", "type": "nominal", "title": "State"},
+      {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"},
+      {"field": "rain_label", "type": "nominal", "title": "In plain words"}
+    ]
+  },
+  "config": {"view": {"stroke": null}}
+}
