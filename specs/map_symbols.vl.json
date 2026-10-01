@@ -1,0 +1,96 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "South Australia dries out most often, and for longest",
+    "subtitle": [
+      "Circle size: number of dry years since 1900 (under 80% of normal rainfall).",
+      "Circle colour: longest run of below-average years in a row. Hover a circle for details."
+    ],
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 12,
+    "offset": 12
+  },
+  "width": 500,
+  "height": 420,
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [-18, -36],
+    "rotate": [-132, 0]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/STE_2021_AUST_GDA2020.json",
+        "format": {"type": "topojson", "feature": "states"}
+      },
+      "mark": {"type": "geoshape", "fill": "#ece6da", "stroke": "white", "strokeWidth": 1}
+    },
+    {
+      "data": {"url": "data/state_dry_stats.csv"},
+      "transform": [
+        {
+          "calculate": "datum.longest_run < 8 ? 'Under 8 years' : datum.longest_run < 11 ? '8–10 years' : datum.longest_run < 15 ? '11–14 years' : '15+ years'",
+          "as": "run_band"
+        }
+      ],
+      "mark": {"type": "circle", "opacity": 0.9, "stroke": "white", "strokeWidth": 1.5},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "size": {
+          "field": "dry_years",
+          "type": "quantitative",
+          "title": "Dry years since 1900",
+          "scale": {"zero": true, "range": [0, 3500]},
+          "legend": {"values": [10, 20, 40], "symbolFillColor": "#d9c7a8", "symbolStrokeColor": "#8c6d46"}
+        },
+        "color": {
+          "field": "run_band",
+          "type": "ordinal",
+          "title": "Longest dry run",
+          "scale": {
+            "domain": ["Under 8 years", "8–10 years", "11–14 years", "15+ years"],
+            "range": ["#e6c07b", "#c9893a", "#9c5419", "#5e2a0c"]
+          },
+          "legend": {"symbolType": "circle", "symbolSize": 200}
+        },
+        "order": {"field": "dry_years", "sort": "descending"},
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "dry_years", "type": "quantitative", "title": "Dry years since 1900"},
+          {"field": "longest_run", "type": "quantitative", "title": "Longest run of below-average years"},
+          {"field": "longest_run_years", "type": "nominal", "title": "When"}
+        ]
+      }
+    },
+    {
+      "data": {"url": "data/state_dry_stats.csv"},
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": "bold"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "abbrev"},
+        "color": {
+          "condition": {"test": "datum.longest_run < 8", "value": "#3b2a1a"},
+          "value": "white"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"lon": 132.2, "lat": -35.8, "note": "SA: 17 below-average years\nin a row (1922–1938)"},
+          {"lon": 137.4, "lat": -40.9, "note": "VIC: the 13-year Millennium\nDrought (1997–2009)"}
+        ]
+      },
+      "mark": {"type": "text", "fontSize": 11, "fontStyle": "italic", "color": "#5e2a0c", "lineBreak": "\n"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "note"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}
