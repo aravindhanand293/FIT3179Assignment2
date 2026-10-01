@@ -2,20 +2,21 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <title>Drought in Australia</title>
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 <body>
   <div id="map_choropleth"></div>
-  <script>
-    vegaEmbed('#map_choropleth', 'specs/map_choropleth.vl.json', {actions: false});
-  </script>
-</body>
-<body>
   <div id="map_symbols"></div>
+  <div id="map_bins"></div>
+
   <script>
-    vegaEmbed('#map_symbols', 'specs/map_symbols.vl.json', {actions: false});
+    const opts = {actions: false};
+    vegaEmbed('#map_choropleth', 'specs/map_choropleth.vl.json', opts).catch(console.error);
+    vegaEmbed('#map_symbols', 'specs/map_symbols.vl.json', opts).catch(console.error);
+    vegaEmbed('#map_bins', 'specs/map_bins.vl.json', opts).catch(console.error);
   </script>
 </body>
 </html>

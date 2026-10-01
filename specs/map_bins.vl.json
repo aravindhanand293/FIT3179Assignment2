@@ -1,0 +1,67 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "The 2017–2019 drought ignored state borders",
+    "subtitle": [
+      "Rainfall over 2017–2019 as a % of the 1961–1990 average, averaged into 1° squares (about 100 km across).",
+      "Hover a square for its value."
+    ],
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 12,
+    "offset": 12
+  },
+  "width": 500,
+  "height": 420,
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [-18, -36],
+    "rotate": [-132, 0]
+  },
+  "layer": [
+    {
+      "data": {"url": "data/rain_grid_2017_2019.csv"},
+      "transform": [
+        {"calculate": "floor(datum.lon) + 0.5", "as": "lon_bin"},
+        {"calculate": "floor(datum.lat) + 0.5", "as": "lat_bin"},
+        {
+          "aggregate": [
+            {"op": "mean", "field": "value", "as": "rain_pct"},
+            {"op": "count", "as": "points"}
+          ],
+          "groupby": ["lon_bin", "lat_bin"]
+        },
+        {"filter": "datum.points >= 4"}
+      ],
+      "mark": {"type": "square", "opacity": 1},
+      "encoding": {
+        "longitude": {"field": "lon_bin", "type": "quantitative"},
+        "latitude": {"field": "lat_bin", "type": "quantitative"},
+        "size": {"value": 140},
+        "color": {
+          "field": "rain_pct",
+          "type": "quantitative",
+          "title": "Rainfall (% of normal)",
+          "scale": {
+            "type": "threshold",
+            "domain": [60, 80, 95, 105, 120],
+            "range": ["#8c510a", "#bf812d", "#dfc27d", "#f2efe6", "#80cdc1", "#35978f"]
+          },
+          "legend": {"orient": "bottom", "direction": "horizontal"}
+        },
+        "tooltip": [
+          {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"},
+          {"field": "points", "type": "quantitative", "title": "Grid points averaged"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/STE_2021_AUST_GDA2020.json",
+        "format": {"type": "topojson", "feature": "states"}
+      },
+      "mark": {"type": "geoshape", "filled": false, "stroke": "#5b4a36", "strokeWidth": 0.7}
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}
