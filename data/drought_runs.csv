@@ -1,0 +1,72 @@
+state,abbrev,start,end,years,mean_pct
+New South Wales,NSW,1900,1905,6,79.0
+New South Wales,NSW,1907,1910,4,86.5
+New South Wales,NSW,1912,1915,4,78.5
+New South Wales,NSW,1922,1930,9,83.7
+New South Wales,NSW,1935,1938,4,79.0
+New South Wales,NSW,1940,1946,7,75.3
+New South Wales,NSW,1964,1968,5,80.6
+New South Wales,NSW,1979,1982,4,75.8
+New South Wales,NSW,1985,1987,3,90.2
+New South Wales,NSW,2001,2009,9,83.0
+New South Wales,NSW,2013,2015,3,88.2
+New South Wales,NSW,2017,2019,3,62.3
+Victoria,VIC,1900,1902,3,86.8
+Victoria,VIC,1912,1915,4,82.9
+Victoria,VIC,1918,1920,3,95.1
+Victoria,VIC,1925,1927,3,81.6
+Victoria,VIC,1943,1945,3,75.6
+Victoria,VIC,1997,2009,13,84.3
+Victoria,VIC,2012,2015,4,85.6
+Victoria,VIC,2017,2019,3,78.8
+Victoria,VIC,2023,2025,3,85.6
+Queensland,QLD,1900,1902,3,65.1
+Queensland,QLD,1925,1929,5,86.1
+Queensland,QLD,1943,1946,4,84.2
+Queensland,QLD,1951,1953,3,83.4
+Queensland,QLD,1960,1962,3,84.7
+Queensland,QLD,1965,1967,3,75.8
+Queensland,QLD,1985,1988,4,86.2
+Queensland,QLD,1992,1996,5,85.9
+Queensland,QLD,2001,2006,6,82.9
+Queensland,QLD,2013,2015,3,82.4
+Queensland,QLD,2017,2020,4,85.8
+South Australia,SA,1900,1902,3,78.2
+South Australia,SA,1911,1915,5,83.0
+South Australia,SA,1922,1938,17,78.8
+South Australia,SA,1943,1945,3,74.4
+South Australia,SA,1959,1965,7,72.3
+South Australia,SA,1969,1972,4,81.1
+South Australia,SA,1985,1987,3,85.6
+South Australia,SA,2004,2009,6,84.9
+South Australia,SA,2012,2015,4,83.6
+South Australia,SA,2018,2021,4,77.2
+South Australia,SA,2023,2025,3,85.6
+Western Australia,WA,1905,1907,3,88.8
+Western Australia,WA,1910,1913,4,85.5
+Western Australia,WA,1935,1938,4,72.5
+Western Australia,WA,1943,1946,4,85.3
+Western Australia,WA,1948,1954,7,83.5
+Western Australia,WA,1956,1959,4,83.9
+Western Australia,WA,1964,1966,3,87.6
+Western Australia,WA,1969,1972,4,79.2
+Western Australia,WA,1985,1987,3,88.3
+Western Australia,WA,1989,1991,3,86.3
+Tasmania,TAS,1918,1922,5,91.6
+Tasmania,TAS,1925,1927,3,89.0
+Tasmania,TAS,1932,1934,3,88.4
+Tasmania,TAS,1965,1967,3,87.1
+Tasmania,TAS,1976,1979,4,97.1
+Tasmania,TAS,1997,2002,6,93.5
+Tasmania,TAS,2006,2008,3,83.0
+Tasmania,TAS,2017,2020,4,94.2
+Tasmania,TAS,2022,2025,4,92.3
+Northern Territory,NT,1900,1902,3,73.3
+Northern Territory,NT,1911,1915,5,82.3
+Northern Territory,NT,1924,1929,6,78.8
+Northern Territory,NT,1931,1938,8,82.5
+Northern Territory,NT,1945,1949,5,88.7
+Northern Territory,NT,1951,1955,5,80.3
+Northern Territory,NT,1958,1966,9,76.7
+Northern Territory,NT,1969,1972,4,83.6
+Northern Territory,NT,1988,1990,3,79.8
