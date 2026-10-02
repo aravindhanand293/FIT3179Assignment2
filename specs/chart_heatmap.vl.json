@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "126 years of rain: droughts show up as brown streaks",
+    "subtitle": "Each square is one year in one state, coloured by rainfall as a % of the 1961–1990 average. Hover for details.",
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 22
+  },
+  "width": 760,
+  "height": {"step": 26},
+  "data": {
+    "url": "data/state_annual.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "rain_mm": "number", "rain_pct": "number"}}
+  },
+  "layer": [
+    {
+      "transform": [{"calculate": "datum.year + 1", "as": "year_end"}],
+      "mark": {"type": "rect"},
+      "encoding": {
+        "x": {
+          "field": "year", "type": "quantitative", "title": null,
+          "scale": {"domain": [1900, 2026], "nice": false},
+          "axis": {"format": "d", "values": [1900, 1920, 1940, 1960, 1980, 2000, 2020], "domain": false}
+        },
+        "x2": {"field": "year_end"},
+        "y": {
+          "field": "state", "type": "nominal", "title": null,
+          "sort": ["Northern Territory", "Queensland", "Western Australia", "South Australia", "New South Wales", "Victoria", "Tasmania"],
+          "axis": {"domain": false, "ticks": false}
+        },
+        "color": {
+          "field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)",
+          "scale": {
+            "type": "threshold",
+            "domain": [60, 80, 95, 105, 120],
+            "range": ["#8c510a", "#bf812d", "#dfc27d", "#f2efe6", "#80cdc1", "#35978f"]
+          },
+          "legend": {"orient": "bottom", "direction": "horizontal"}
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+          {"field": "rain_mm", "type": "quantitative", "title": "Rainfall (mm)", "format": ".0f"},
+          {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [
+        {"start": 1900, "end": 1903, "label": "Federation"},
+        {"start": 1937, "end": 1946, "label": "World War II"},
+        {"start": 1997, "end": 2010, "label": "Millennium"},
+        {"start": 2017, "end": 2020, "label": "Tinderbox"}
+      ]},
+      "mark": {"type": "rule", "color": "#5e2a0c", "strokeWidth": 2},
+      "encoding": {
+        "x": {"field": "start", "type": "quantitative"},
+        "x2": {"field": "end"},
+        "y": {"value": -6}
+      }
+    },
+    {
+      "data": {"values": [
+        {"start": 1900, "label": "Federation"},
+        {"start": 1937, "label": "World War II"},
+        {"start": 1997, "label": "Millennium"},
+        {"start": 2017, "label": "Tinderbox"}
+      ]},
+      "mark": {"type": "text", "align": "left", "fontSize": 11, "fontWeight": "bold", "color": "#5e2a0c"},
+      "encoding": {
+        "x": {"field": "start", "type": "quantitative"},
+        "y": {"value": -14},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

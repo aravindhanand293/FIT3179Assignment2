@@ -1,0 +1,34 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "How much of Australia was in drought, 2017–2019?",
+    "subtitle": ["Each square is 1% of Australia's land area,", "coloured by its 2017–2019 rainfall as a % of normal."],
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+  },
+  "width": 260,
+  "height": 260,
+  "data": {
+    "url": "data/waffle_2017_2019.csv",
+    "format": {"type": "csv", "parse": {"col": "number", "row": "number", "pct_of_land": "number"}}
+  },
+  "mark": {"type": "rect", "stroke": "white", "strokeWidth": 2},
+  "encoding": {
+    "x": {"field": "col", "type": "ordinal", "axis": null},
+    "y": {"field": "row", "type": "ordinal", "axis": null},
+    "color": {
+      "field": "band",
+      "type": "nominal",
+      "title": "Rainfall (% of normal)",
+      "scale": {
+        "domain": ["Under 60%", "60–80%", "80–95%", "95–105%", "105–120%", "120% or more"],
+        "range": ["#8c510a", "#bf812d", "#dfc27d", "#f2efe6", "#80cdc1", "#35978f"]
+      },
+      "legend": {"orient": "right", "symbolType": "square", "symbolSize": 200, "symbolStrokeColor": "#b8ae9c"}
+    },
+    "tooltip": [
+      {"field": "band", "type": "nominal", "title": "Rainfall"},
+      {"field": "pct_of_land", "type": "quantitative", "title": "% of Australia's land", "format": ".1f"}
+    ]
+  },
+  "config": {"view": {"stroke": null}}
+}

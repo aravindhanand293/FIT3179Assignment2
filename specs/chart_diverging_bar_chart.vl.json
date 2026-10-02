@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Dry years haven't become more common. Hot years have.",
+    "subtitle": [
+      "Share of state-years in each decade that were dry (under 80% of normal rainfall, left)",
+      "or hot (more than 0.5 °C above the 1961–1990 average, right)."
+    ],
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+  },
+  "data": {
+    "url": "data/state_annual.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "rain_pct": "number", "temp_anom": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.year >= 1910"},
+    {"calculate": "floor(datum.year / 10) * 10", "as": "decade"},
+    {"calculate": "datum.rain_pct < 80 ? 1 : 0", "as": "is_dry"},
+    {"calculate": "datum.temp_anom > 0.5 ? 1 : 0", "as": "is_hot"},
+    {
+      "aggregate": [
+        {"op": "sum", "field": "is_dry", "as": "dry"},
+        {"op": "sum", "field": "is_hot", "as": "hot"},
+        {"op": "count", "as": "n"}
+      ],
+      "groupby": ["decade"]
+    },
+    {"calculate": "datum.dry / datum.n * 100", "as": "dry_pct"},
+    {"calculate": "datum.hot / datum.n * 100", "as": "hot_pct"},
+    {"calculate": "datum.decade == 2020 ? '2020–25' : datum.decade + 's'", "as": "label"}
+  ],
+  "spacing": 0,
+  "hconcat": [
+    {
+      "title": {"text": "Dry years", "color": "#8c510a", "fontSize": 13, "anchor": "end"},
+      "width": 300,
+      "height": {"step": 24},
+      "mark": {"type": "bar", "color": "#bf812d"},
+      "encoding": {
+        "y": {"field": "label", "type": "ordinal", "sort": {"field": "decade"}, "axis": null},
+        "x": {"field": "dry_pct", "type": "quantitative", "title": "% of state-years", "scale": {"domain": [0, 80], "reverse": true}},
+        "tooltip": [
+          {"field": "label", "type": "nominal", "title": "Decade"},
+          {"field": "dry_pct", "type": "quantitative", "title": "Dry (% of state-years)", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "width": 60,
+      "height": {"step": 24},
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": "bold", "color": "#444"},
+      "encoding": {
+        "y": {"field": "label", "type": "ordinal", "sort": {"field": "decade"}, "axis": null},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "title": {"text": "Hot years", "color": "#c0392b", "fontSize": 13, "anchor": "start"},
+      "width": 300,
+      "height": {"step": 24},
+      "mark": {"type": "bar", "color": "#d6604d"},
+      "encoding": {
+        "y": {"field": "label", "type": "ordinal", "sort": {"field": "decade"}, "axis": null},
+        "x": {"field": "hot_pct", "type": "quantitative", "title": "% of state-years", "scale": {"domain": [0, 80]}},
+        "tooltip": [
+          {"field": "label", "type": "nominal", "title": "Decade"},
+          {"field": "hot_pct", "type": "quantitative", "title": "Hot (% of state-years)", "format": ".0f"}
+        ]
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

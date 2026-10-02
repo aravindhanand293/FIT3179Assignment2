@@ -1,0 +1,81 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Australia swings between wet and dry decades",
+    "subtitle": "Yearly rainfall across Australia as a % of the 1961–1990 average (thin line), with the 10-year average (thick line).",
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+  },
+  "width": 760,
+  "height": 260,
+  "layer": [
+    {
+      "data": {"values": [
+        {"start": 1900, "end": 1903, "label": "Federation"},
+        {"start": 1937, "end": 1946, "label": "WWII"},
+        {"start": 1997, "end": 2010, "label": "Millennium"},
+        {"start": 2017, "end": 2020, "label": "Tinderbox"}
+      ]},
+      "layer": [
+        {
+          "mark": {"type": "rect", "color": "#e9dcc4", "opacity": 0.7},
+          "encoding": {
+            "x": {"field": "start", "type": "quantitative", "scale": {"domain": [1900, 2026], "nice": false, "zero": false}},
+            "x2": {"field": "end"}
+          }
+        },
+        {
+          "mark": {"type": "text", "align": "left", "baseline": "top", "dx": 3, "dy": 3, "fontSize": 11, "color": "#7a5a2e"},
+          "encoding": {
+            "x": {"field": "start", "type": "quantitative"},
+            "y": {"value": 0},
+            "text": {"field": "label"}
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "data/aus_annual.csv",
+        "format": {"type": "csv", "parse": {"year": "number", "rain_pct": "number"}}
+      },
+      "transform": [
+        {"window": [{"op": "mean", "field": "rain_pct", "as": "rolling"}], "frame": [-9, 0], "sort": [{"field": "year"}]},
+        {"calculate": "datum.year >= 1909 ? datum.rolling : null", "as": "rolling"}
+      ],
+      "layer": [
+        {
+          "mark": {"type": "rule", "color": "#888", "strokeDash": [4, 3]},
+          "encoding": {"y": {"datum": 100, "scale": {"domain": [40, 180]}}}
+        },
+        {
+          "mark": {"type": "line", "color": "#b8ab95", "strokeWidth": 1},
+          "encoding": {
+            "x": {"field": "year", "type": "quantitative", "title": null,
+                  "scale": {"domain": [1900, 2026], "nice": false}, "axis": {"format": "d"}},
+            "y": {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "scale": {"domain": [40, 180]}}
+          }
+        },
+        {
+          "mark": {"type": "line", "color": "#8c510a", "strokeWidth": 3},
+          "encoding": {
+            "x": {"field": "year", "type": "quantitative"},
+            "y": {"field": "rolling", "type": "quantitative", "scale": {"domain": [40, 180]}}
+          }
+        },
+        {
+          "mark": {"type": "point", "opacity": 0, "size": 80},
+          "encoding": {
+            "x": {"field": "year", "type": "quantitative"},
+            "y": {"field": "rain_pct", "type": "quantitative", "scale": {"domain": [40, 180]}},
+            "tooltip": [
+              {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+              {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"},
+              {"field": "rolling", "type": "quantitative", "title": "10-year average (%)", "format": ".0f"}
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

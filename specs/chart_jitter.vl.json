@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Some states swing much harder between wet and dry",
+    "subtitle": "Each dot is one year since 1900. Dots left of the dashed line were dry years (under 80% of normal). Hover a dot for the year.",
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+  },
+  "width": 760,
+  "height": {"step": 44},
+  "data": {
+    "url": "data/state_annual.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "rain_pct": "number"}}
+  },
+  "transform": [
+    {"calculate": "((datum.year * 9301 + 49297) % 233280) / 233280", "as": "jitter"},
+    {"calculate": "datum.rain_pct < 80 ? 'Dry year (under 80%)' : datum.rain_pct <= 120 ? 'Near normal (80–120%)' : 'Wet year (over 120%)'", "as": "year_type"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "circle", "size": 26, "opacity": 0.8},
+      "encoding": {
+        "x": {
+          "field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)",
+          "scale": {"domain": [20, 210], "clamp": true}
+        },
+        "y": {
+          "field": "state", "type": "nominal", "title": null,
+          "sort": ["Northern Territory", "Queensland", "Western Australia", "South Australia", "New South Wales", "Victoria", "Tasmania"],
+          "axis": {"domain": false, "ticks": false, "grid": false}
+        },
+        "yOffset": {"field": "jitter", "type": "quantitative", "scale": {"domain": [-0.6, 1.6]}},
+        "color": {
+          "field": "year_type", "type": "nominal", "title": null,
+          "scale": {
+            "domain": ["Dry year (under 80%)", "Near normal (80–120%)", "Wet year (over 120%)"],
+            "range": ["#a6611a", "#c9c3b8", "#35978f"]
+          },
+          "legend": {"orient": "top", "direction": "horizontal"}
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+          {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [{"x": 80}]},
+      "mark": {"type": "rule", "strokeDash": [4, 3], "color": "#5e2a0c"},
+      "encoding": {"x": {"field": "x", "type": "quantitative"}}
+    },
+    {
+      "data": {"values": [{"x": 100}]},
+      "mark": {"type": "rule", "color": "#777"},
+      "encoding": {"x": {"field": "x", "type": "quantitative"}}
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

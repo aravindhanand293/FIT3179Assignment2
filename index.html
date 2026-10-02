@@ -11,12 +11,29 @@
   <div id="map_choropleth"></div>
   <div id="map_symbols"></div>
   <div id="map_bins"></div>
-
+  <div id="chart_heatmap"></div>
+  <div id="chart_line"></div>
+  <div id="chart_waffle"></div>
+  <div id="chart_gantt"></div>
+  <div id="chart_jitter"></div>
+  <div id="chart_lollipop"></div>
+  <div id="chart_connected_scatter"></div>
+  <div id="chart_connected_dot_plot"></div>
+  <div id="chart_diverging_bar_chart"></div>
   <script>
     const opts = {actions: false};
     vegaEmbed('#map_choropleth', 'specs/map_choropleth.vl.json', opts).catch(console.error);
     vegaEmbed('#map_symbols', 'specs/map_symbols.vl.json', opts).catch(console.error);
     vegaEmbed('#map_bins', 'specs/map_bins.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_heatmap', 'specs/chart_heatmap.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_line', 'specs/chart_line.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_waffle', 'specs/chart_waffle.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_gantt', 'specs/chart_gantt.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_jitter', 'specs/chart_jitter.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_lollipop', 'specs/chart_lollipop.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_connected_scatter', 'specs/chart_connected_scatter.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_connected_dot_plot', 'specs/chart_connected_dot_plot.vl.json', opts).catch(console.error);
+    vegaEmbed('#chart_diverging_bar_chart', 'specs/chart_diverging_bar_chart.vl.json', opts).catch(console.error);
   </script>
 </body>
 </html>

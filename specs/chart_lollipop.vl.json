@@ -1,0 +1,60 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "The driest year on record in each state",
+    "subtitle": "How far rainfall fell below normal in each state's driest year since 1900. Three states had their driest year in 2019.",
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+  },
+  "width": 560,
+  "height": {"step": 36},
+  "data": {
+    "url": "data/state_annual.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "rain_pct": "number", "rain_mm": "number"}}
+  },
+  "transform": [
+    {"window": [{"op": "row_number", "as": "rank"}], "sort": [{"field": "rain_pct", "order": "ascending"}], "groupby": ["state"]},
+    {"filter": "datum.rank == 1"},
+    {"calculate": "datum.year + ': ' + format(datum.rain_pct, '.0f') + '%'", "as": "label"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "rule", "color": "#bf812d", "strokeWidth": 3},
+      "encoding": {
+        "y": {"field": "state", "type": "nominal", "title": null, "sort": {"field": "rain_pct", "order": "ascending"}, "axis": {"domain": false, "ticks": false}},
+        "x": {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "scale": {"domain": [0, 110]}},
+        "x2": {"datum": 100}
+      }
+    },
+    {
+      "mark": {"type": "circle", "size": 220, "color": "#8c510a", "opacity": 1},
+      "encoding": {
+        "y": {"field": "state", "type": "nominal", "title": null, "sort": {"field": "rain_pct", "order": "ascending"}, "axis": {"domain": false, "ticks": false}},
+        "x": {"field": "rain_pct", "type": "quantitative"},
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "year", "type": "quantitative", "title": "Driest year", "format": "d"},
+          {"field": "rain_mm", "type": "quantitative", "title": "Rainfall (mm)", "format": ".0f"},
+          {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "right", "dx": -14, "fontSize": 12, "fontWeight": "bold", "color": "#5e2a0c"},
+      "encoding": {
+        "y": {"field": "state", "type": "nominal", "title": null, "sort": {"field": "rain_pct", "order": "ascending"}, "axis": {"domain": false, "ticks": false}},
+        "x": {"field": "rain_pct", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "data": {"values": [{"x": 100, "label": "Normal"}]},
+      "layer": [
+        {"mark": {"type": "rule", "strokeDash": [4, 3], "color": "#777"},
+         "encoding": {"x": {"field": "x", "type": "quantitative"}}},
+        {"mark": {"type": "text", "dy": -6, "fontSize": 11, "color": "#555", "baseline": "bottom"},
+         "encoding": {"x": {"field": "x", "type": "quantitative"}, "y": {"value": 0}, "text": {"field": "label"}}}
+      ]
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

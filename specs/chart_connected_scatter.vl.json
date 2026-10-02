@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Australia hasn't dried out overall, but it has heated up",
+    "subtitle": ["Average rainfall and temperature for each decade across Australia, joined in time order.", "Both are compared with the 1961–1990 average."],
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+  },
+  "width": 520,
+  "height": 400,
+  "data": {
+    "url": "data/aus_annual.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "rain_pct": "number", "temp_anom": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.year >= 1910"},
+    {"calculate": "floor(datum.year / 10) * 10", "as": "decade"},
+    {
+      "aggregate": [
+        {"op": "mean", "field": "rain_pct", "as": "rain"},
+        {"op": "mean", "field": "temp_anom", "as": "temp"},
+        {"op": "count", "as": "years"}
+      ],
+      "groupby": ["decade"]
+    },
+    {"calculate": "datum.years < 10 ? datum.decade + '–' + (datum.decade + datum.years - 1) : datum.decade + 's'", "as": "label"}
+  ],
+  "layer": [
+    {
+      "data": {"values": [{"x": 100}]},
+      "mark": {"type": "rule", "strokeDash": [4, 3], "color": "#999"},
+      "encoding": {"x": {"field": "x", "type": "quantitative", "scale": {"domain": [85, 115]}}}
+    },
+    {
+      "data": {"values": [{"y": 0}]},
+      "mark": {"type": "rule", "strokeDash": [4, 3], "color": "#999"},
+      "encoding": {"y": {"field": "y", "type": "quantitative", "scale": {"domain": [-0.6, 1.1]}}}
+    },
+    {
+      "mark": {"type": "line", "color": "#b8ab95", "strokeWidth": 2, "interpolate": "linear"},
+      "encoding": {
+        "x": {"field": "rain", "type": "quantitative", "title": "Rainfall (% of normal)", "scale": {"domain": [85, 115]}},
+        "y": {"field": "temp", "type": "quantitative", "title": "Temperature compared with normal (°C)", "scale": {"domain": [-0.6, 1.1]}},
+        "order": {"field": "decade", "type": "quantitative"}
+      }
+    },
+    {
+      "mark": {"type": "circle", "size": 120, "opacity": 1, "stroke": "white", "strokeWidth": 1},
+      "encoding": {
+        "x": {"field": "rain", "type": "quantitative"},
+        "y": {"field": "temp", "type": "quantitative"},
+        "color": {
+          "field": "temp", "type": "quantitative", "legend": null,
+          "scale": {"domain": [-0.5, 1], "range": ["#9bb0c4", "#f4c38e", "#c0392b"]}
+        },
+        "tooltip": [
+          {"field": "label", "type": "nominal", "title": "Decade"},
+          {"field": "rain", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"},
+          {"field": "temp", "type": "quantitative", "title": "Temperature vs normal (°C)", "format": "+.2f"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.decade >= 1950 || datum.decade == 1910 || datum.decade == 1930"}],
+      "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 11, "color": "#444"},
+      "encoding": {
+        "x": {"field": "rain", "type": "quantitative"},
+        "y": {"field": "temp", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "How long did each drought last?",
+    "subtitle": "Each bar is a run of 3 or more below-average years in a row. Darker bars were drier on average. Hover for details.",
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+  },
+  "width": 760,
+  "height": {"step": 30},
+  "layer": [
+    {
+      "data": {
+        "url": "data/drought_runs.csv",
+        "format": {"type": "csv", "parse": {"start": "number", "end": "number", "years": "number", "mean_pct": "number"}}
+      },
+      "transform": [{"calculate": "datum.end + 1", "as": "end_bar"}],
+      "mark": {"type": "bar", "cornerRadius": 2, "height": 18},
+      "encoding": {
+        "x": {
+          "field": "start", "type": "quantitative", "title": null,
+          "scale": {"domain": [1900, 2026], "nice": false, "zero": false},
+          "axis": {"format": "d", "values": [1900, 1920, 1940, 1960, 1980, 2000, 2020]}
+        },
+        "x2": {"field": "end_bar"},
+        "y": {
+          "field": "state", "type": "nominal", "title": null,
+          "sort": ["Northern Territory", "Queensland", "Western Australia", "South Australia", "New South Wales", "Victoria", "Tasmania"],
+          "axis": {"domain": false, "ticks": false}
+        },
+        "color": {
+          "field": "mean_pct", "type": "quantitative", "title": "Average rainfall during the run (% of normal)",
+          "scale": {"type": "threshold", "domain": [75, 85, 95], "range": ["#8c510a", "#bf812d", "#dfc27d", "#ece2c6"]},
+          "legend": {"orient": "bottom", "direction": "horizontal", "titleLimit": 400}
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "start", "type": "quantitative", "title": "From", "format": "d"},
+          {"field": "end", "type": "quantitative", "title": "To", "format": "d"},
+          {"field": "years", "type": "quantitative", "title": "Years in a row"},
+          {"field": "mean_pct", "type": "quantitative", "title": "Average rainfall (% of normal)", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [
+        {"state": "South Australia", "x": 1930.5, "note": "17 years"},
+        {"state": "Victoria", "x": 2003.5, "note": "13 years"}
+      ]},
+      "mark": {"type": "text", "fontSize": 11, "fontWeight": "bold", "color": "white"},
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {
+          "field": "state", "type": "nominal",
+          "sort": ["Northern Territory", "Queensland", "Western Australia", "South Australia", "New South Wales", "Victoria", "Tasmania"]
+        },
+        "text": {"field": "note"}
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

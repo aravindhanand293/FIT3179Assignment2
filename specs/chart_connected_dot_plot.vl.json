@@ -1,0 +1,55 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Two droughts, 80 years apart: one cool, one hot",
+    "subtitle": "Average temperature in each state during the World War II Drought and the Tinderbox Drought, compared with the 1961–1990 average.",
+    "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+  },
+  "width": 560,
+  "height": {"step": 36},
+  "data": {
+    "url": "data/state_annual.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "temp_anom": "number"}}
+  },
+  "transform": [
+    {"filter": "(datum.year >= 1937 && datum.year <= 1945) || (datum.year >= 2017 && datum.year <= 2019)"},
+    {"calculate": "datum.year < 2000 ? 'World War II Drought (1937–1945)' : 'Tinderbox Drought (2017–2019)'", "as": "drought"},
+    {"aggregate": [{"op": "mean", "field": "temp_anom", "as": "temp"}], "groupby": ["state", "drought"]}
+  ],
+  "layer": [
+    {
+      "data": {"values": [{"x": 0}]},
+      "mark": {"type": "rule", "strokeDash": [4, 3], "color": "#999"},
+      "encoding": {"x": {"field": "x", "type": "quantitative"}}
+    },
+    {
+      "transform": [
+        {"pivot": "drought", "value": "temp", "groupby": ["state"]}
+      ],
+      "mark": {"type": "rule", "color": "#c9c3b8", "strokeWidth": 4},
+      "encoding": {
+        "y": {"field": "state", "type": "nominal", "title": null, "sort": ["New South Wales", "Queensland", "South Australia", "Northern Territory", "Victoria", "Western Australia", "Tasmania"], "axis": {"domain": false, "ticks": false}},
+        "x": {"field": "World War II Drought (1937–1945)", "type": "quantitative"},
+        "x2": {"field": "Tinderbox Drought (2017–2019)"}
+      }
+    },
+    {
+      "mark": {"type": "circle", "size": 200, "opacity": 1},
+      "encoding": {
+        "y": {"field": "state", "type": "nominal", "sort": ["New South Wales", "Queensland", "South Australia", "Northern Territory", "Victoria", "Western Australia", "Tasmania"]},
+        "x": {"field": "temp", "type": "quantitative", "title": "Temperature compared with normal (°C)", "scale": {"domain": [-0.8, 2]}},
+        "color": {
+          "field": "drought", "type": "nominal", "title": null,
+          "scale": {"domain": ["World War II Drought (1937–1945)", "Tinderbox Drought (2017–2019)"], "range": ["#6b8fb3", "#c0392b"]},
+          "legend": {"orient": "top", "direction": "horizontal", "labelLimit": 300}
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "drought", "type": "nominal", "title": "Drought"},
+          {"field": "temp", "type": "quantitative", "title": "Temperature vs normal (°C)", "format": "+.2f"}
+        ]
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}
