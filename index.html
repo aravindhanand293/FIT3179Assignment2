@@ -20,6 +20,7 @@
   <div id="chart_connected_scatter"></div>
   <div id="chart_connected_dot_plot"></div>
   <div id="chart_diverging_bar_chart"></div>
+  <div id="linked_timeline"></div>
   <script>
     const opts = {actions: false};
     vegaEmbed('#map_choropleth', 'specs/map_choropleth.vl.json', opts).catch(console.error);
@@ -34,6 +35,7 @@
     vegaEmbed('#chart_connected_scatter', 'specs/chart_connected_scatter.vl.json', opts).catch(console.error);
     vegaEmbed('#chart_connected_dot_plot', 'specs/chart_connected_dot_plot.vl.json', opts).catch(console.error);
     vegaEmbed('#chart_diverging_bar_chart', 'specs/chart_diverging_bar_chart.vl.json', opts).catch(console.error);
+    vegaEmbed('#linked_timeline', 'specs/linked_timeline.vl.json', opts).catch(console.error);
   </script>
 </body>
 </html>

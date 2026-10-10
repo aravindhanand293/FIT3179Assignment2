@@ -1,0 +1,244 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "spacing": 48,
+  "resolve": {"scale": {"color": "independent"}},
+  "vconcat": [
+    {
+      "title": {
+        "text": "Australia swings between wet and dry decades",
+        "subtitle": [
+          "Yearly rainfall across Australia as a % of the 1961–1990 average (thin line), with the 10-year average (thick line).",
+          "Drag across this chart to zoom the heatmap and timeline below. Drag the shaded box to move it; double-click to reset."
+        ],
+        "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
+      },
+      "width": 760,
+      "height": 150,
+      "layer": [
+        {
+          "data": {"values": [
+            {"start": 1900, "end": 1903, "label": "Federation"},
+            {"start": 1937, "end": 1946, "label": "WWII"},
+            {"start": 1997, "end": 2010, "label": "Millennium"},
+            {"start": 2017, "end": 2020, "label": "Tinderbox"}
+          ]},
+          "layer": [
+            {
+              "mark": {"type": "rect", "color": "#e9dcc4", "opacity": 0.7},
+              "encoding": {
+                "x": {"field": "start", "type": "quantitative", "scale": {"domain": [1900, 2026], "nice": false, "zero": false}},
+                "x2": {"field": "end"}
+              }
+            },
+            {
+              "mark": {"type": "text", "align": "left", "baseline": "top", "dx": 3, "dy": 3, "fontSize": 11, "color": "#7a5a2e"},
+              "encoding": {
+                "x": {"field": "start", "type": "quantitative"},
+                "y": {"value": 0},
+                "text": {"field": "label"}
+              }
+            }
+          ]
+        },
+        {
+          "data": {
+            "url": "data/aus_annual.csv",
+            "format": {"type": "csv", "parse": {"year": "number", "rain_pct": "number"}}
+          },
+          "transform": [
+            {"window": [{"op": "mean", "field": "rain_pct", "as": "rolling"}], "frame": [-9, 0], "sort": [{"field": "year"}]},
+            {"calculate": "datum.year >= 1909 ? datum.rolling : null", "as": "rolling"}
+          ],
+          "layer": [
+            {
+              "mark": {"type": "rule", "color": "#888", "strokeDash": [4, 3]},
+              "encoding": {"y": {"datum": 100, "scale": {"domain": [40, 180]}}}
+            },
+            {
+              "params": [
+                {
+                  "name": "years",
+                  "select": {
+                    "type": "interval",
+                    "encodings": ["x"],
+                    "mark": {"fill": "#5e2a0c", "fillOpacity": 0.12, "stroke": "#5e2a0c", "strokeWidth": 1}
+                  }
+                }
+              ],
+              "mark": {"type": "line", "color": "#b8ab95", "strokeWidth": 1},
+              "encoding": {
+                "x": {"field": "year", "type": "quantitative", "title": null,
+                      "scale": {"domain": [1900, 2026], "nice": false}, "axis": {"format": "d"}},
+                "y": {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)",
+                      "scale": {"domain": [40, 180]}, "axis": {"tickCount": 4}}
+              }
+            },
+            {
+              "mark": {"type": "line", "color": "#8c510a", "strokeWidth": 3},
+              "encoding": {
+                "x": {"field": "year", "type": "quantitative"},
+                "y": {"field": "rolling", "type": "quantitative", "scale": {"domain": [40, 180]}}
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": {
+        "text": "126 years of rain: droughts show up as brown streaks",
+        "subtitle": "Each square is one year in one state, coloured by rainfall as a % of the 1961–1990 average. Hover for details.",
+        "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 40
+      },
+      "width": 760,
+      "height": {"step": 26},
+      "data": {
+        "url": "data/state_annual.csv",
+        "format": {"type": "csv", "parse": {"year": "number", "rain_mm": "number", "rain_pct": "number"}}
+      },
+      "layer": [
+        {
+          "transform": [{"calculate": "datum.year + 1", "as": "year_end"}],
+          "mark": {"type": "rect", "clip": true},
+          "encoding": {
+            "x": {
+              "field": "year", "type": "quantitative", "title": null,
+              "scale": {"domain": {"param": "years"}, "nice": false, "zero": false},
+              "axis": {"format": "d", "tickCount": 8, "domain": false}
+            },
+            "x2": {"field": "year_end"},
+            "y": {
+              "field": "state", "type": "nominal", "title": null,
+              "sort": ["Northern Territory", "Queensland", "Western Australia", "South Australia", "New South Wales", "Victoria", "Tasmania"],
+              "axis": {"domain": false, "ticks": false}
+            },
+            "color": {
+              "field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)",
+              "scale": {
+                "type": "threshold",
+                "domain": [60, 80, 95, 105, 120],
+                "range": ["#8c510a", "#bf812d", "#dfc27d", "#f2efe6", "#80cdc1", "#35978f"]
+              },
+              "legend": {"orient": "bottom", "direction": "horizontal"}
+            },
+            "tooltip": [
+              {"field": "state", "type": "nominal", "title": "State"},
+              {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+              {"field": "rain_mm", "type": "quantitative", "title": "Rainfall (mm)", "format": ".0f"},
+              {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"}
+            ]
+          }
+        },
+        {
+          "data": {"values": [
+            {"start": 1900, "end": 1903, "label": "Federation"},
+            {"start": 1937, "end": 1946, "label": "World War II"},
+            {"start": 1997, "end": 2010, "label": "Millennium"},
+            {"start": 2017, "end": 2020, "label": "Tinderbox"}
+          ]},
+          "transform": [
+            {"calculate": "isValid(years.year) ? max(datum.start, years.year[0]) : datum.start", "as": "shown_start"},
+            {"calculate": "isValid(years.year) ? min(datum.end, years.year[1]) : datum.end", "as": "shown_end"},
+            {"filter": "datum.shown_end > datum.shown_start"}
+          ],
+          "layer": [
+            {
+              "mark": {"type": "rule", "color": "#5e2a0c", "strokeWidth": 2, "clip": false},
+              "encoding": {
+                "x": {"field": "shown_start", "type": "quantitative", "scale": {"domain": {"param": "years"}, "nice": false, "zero": false}},
+                "x2": {"field": "shown_end"},
+                "y": {"value": -6}
+              }
+            },
+            {
+              "mark": {"type": "text", "align": "left", "fontSize": 11, "fontWeight": "bold", "color": "#5e2a0c", "clip": false},
+              "encoding": {
+                "x": {"field": "shown_start", "type": "quantitative", "scale": {"domain": {"param": "years"}, "nice": false, "zero": false}},
+                "y": {"value": -14},
+                "text": {"field": "label"}
+              }
+            }
+          ]
+        },
+        {
+          "transform": [
+            {"filter": {"param": "years"}},
+            {"window": [{"op": "row_number", "as": "rank"}], "sort": [{"field": "rain_pct", "order": "ascending"}]},
+            {"filter": "datum.rank == 1"},
+            {"calculate": "'Driest state-year shown: ' + datum.state + ', ' + datum.year + ' (' + format(datum.rain_pct, '.0f') + '% of normal)'", "as": "note"}
+          ],
+          "mark": {"type": "text", "align": "right", "fontSize": 12, "fontStyle": "italic", "color": "#5e2a0c", "clip": false},
+          "encoding": {
+            "x": {"value": 760},
+            "y": {"value": -32},
+            "text": {"field": "note"}
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "text": "How long did each drought last?",
+        "subtitle": "Each bar is a run of 3 or more below-average years in a row, coloured by its average rainfall (same colours as the heatmap).",
+        "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 34
+      },
+      "width": 760,
+      "height": {"step": 30},
+      "data": {
+        "url": "data/drought_runs.csv",
+        "format": {"type": "csv", "parse": {"start": "number", "end": "number", "years": "number", "mean_pct": "number"}}
+      },
+      "layer": [
+        {
+          "transform": [{"calculate": "datum.end + 1", "as": "end_bar"}],
+          "mark": {"type": "bar", "cornerRadius": 2, "height": 18, "clip": true},
+          "encoding": {
+            "x": {
+              "field": "start", "type": "quantitative", "title": null,
+              "scale": {"domain": {"param": "years"}, "nice": false, "zero": false},
+              "axis": {"format": "d", "tickCount": 8}
+            },
+            "x2": {"field": "end_bar"},
+            "y": {
+              "field": "state", "type": "nominal", "title": null,
+              "sort": ["Northern Territory", "Queensland", "Western Australia", "South Australia", "New South Wales", "Victoria", "Tasmania"],
+              "axis": {"domain": false, "ticks": false}
+            },
+            "color": {
+              "field": "mean_pct", "type": "quantitative",
+              "scale": {
+                "type": "threshold",
+                "domain": [60, 80, 95, 105, 120],
+                "range": ["#8c510a", "#bf812d", "#dfc27d", "#f2efe6", "#80cdc1", "#35978f"]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {"field": "state", "type": "nominal", "title": "State"},
+              {"field": "start", "type": "quantitative", "title": "From", "format": "d"},
+              {"field": "end", "type": "quantitative", "title": "To", "format": "d"},
+              {"field": "years", "type": "quantitative", "title": "Years in a row"},
+              {"field": "mean_pct", "type": "quantitative", "title": "Average rainfall (% of normal)", "format": ".0f"}
+            ]
+          }
+        },
+        {
+          "transform": [
+            {"calculate": "datum.start", "as": "year"},
+            {"filter": {"param": "years"}},
+            {"window": [{"op": "row_number", "as": "rank"}], "sort": [{"field": "years", "order": "descending"}, {"field": "mean_pct", "order": "ascending"}]},
+            {"filter": "datum.rank == 1"},
+            {"calculate": "'Longest run starting in this period: ' + datum.state + ', ' + datum.years + ' years (' + datum.start + '–' + datum.end + ')'", "as": "note"}
+          ],
+          "mark": {"type": "text", "align": "right", "fontSize": 12, "fontStyle": "italic", "color": "#5e2a0c", "clip": false},
+          "encoding": {
+            "x": {"value": 760},
+            "y": {"value": -12},
+            "text": {"field": "note"}
+          }
+        }
+      ]
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}
