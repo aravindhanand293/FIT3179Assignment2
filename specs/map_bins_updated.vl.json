@@ -1,0 +1,113 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "The 2017–2019 drought ignored state borders",
+    "subtitle": [
+      "Rainfall over 2017–2019 as a % of the 1961–1990 average, averaged into squares. Hover a square for its value.",
+      "Switch the square size below the map to check the pattern doesn't depend on how big the squares are."
+    ],
+    "anchor": "start",
+    "fontSize": 18,
+    "subtitleFontSize": 12,
+    "offset": 12
+  },
+  "width": 500,
+  "height": 420,
+  "params": [
+    {
+      "name": "cell",
+      "value": 1,
+      "bind": {
+        "input": "radio",
+        "options": [1, 2],
+        "labels": ["1° squares (about 100 km)", "2° squares (about 200 km)"],
+        "name": "Square size: "
+      }
+    }
+  ],
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [-18, -36],
+    "rotate": [-132, 0]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/STE_2021_AUST_GDA2020.json",
+        "format": {"type": "topojson", "feature": "states"}
+      },
+      "mark": {"type": "geoshape", "fill": "#ece8e0", "stroke": null}
+    },
+    {
+      "data": {
+        "url": "data/rain_grid_2017_2019.csv",
+        "format": {"type": "csv", "parse": {"lon": "number", "lat": "number", "value": "number"}}
+      },
+      "transform": [
+        {"calculate": "floor(datum.lon / cell) * cell + cell / 2", "as": "lon_bin"},
+        {"calculate": "floor(datum.lat / cell) * cell + cell / 2", "as": "lat_bin"},
+        {
+          "aggregate": [
+            {"op": "mean", "field": "value", "as": "rain_pct"},
+            {"op": "count", "as": "points"}
+          ],
+          "groupby": ["lon_bin", "lat_bin"]
+        },
+        {"filter": "datum.points >= 4 * cell * cell"}
+      ],
+      "layer": [
+        {
+          "mark": {"type": "square", "opacity": 1, "size": {"expr": "cell == 1 ? 140 : 560"}, "stroke": "#d6cfc0", "strokeWidth": 0.4},
+          "encoding": {
+            "longitude": {"field": "lon_bin", "type": "quantitative"},
+            "latitude": {"field": "lat_bin", "type": "quantitative"},
+            "color": {
+              "field": "rain_pct",
+              "type": "quantitative",
+              "title": "Rainfall (% of normal)",
+              "scale": {
+                "type": "threshold",
+                "domain": [60, 80, 95, 105, 120],
+                "range": ["#8c510a", "#bf812d", "#dfc27d", "#f2efe6", "#80cdc1", "#35978f"]
+              },
+              "legend": {"orient": "bottom", "direction": "horizontal"}
+            },
+            "tooltip": [
+              {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)", "format": ".0f"},
+              {"field": "points", "type": "quantitative", "title": "Grid points averaged"}
+            ]
+          }
+        },
+        {
+          "transform": [
+            {"calculate": "datum.rain_pct < 80 ? 1 : 0", "as": "dry"},
+            {
+              "aggregate": [
+                {"op": "sum", "field": "dry", "as": "dry_squares"},
+                {"op": "count", "as": "all_squares"}
+              ]
+            },
+            {
+              "calculate": "format(datum.dry_squares / datum.all_squares, '.0%') + ' of squares had under 80% of normal rain'",
+              "as": "note"
+            }
+          ],
+          "mark": {"type": "text", "align": "left", "baseline": "bottom", "fontSize": 12, "fontStyle": "italic", "color": "#5e2a0c"},
+          "encoding": {
+            "x": {"value": 0},
+            "y": {"value": 420},
+            "text": {"field": "note"}
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "data/STE_2021_AUST_GDA2020.json",
+        "format": {"type": "topojson", "feature": "states"}
+      },
+      "mark": {"type": "geoshape", "filled": false, "stroke": "#5b4a36", "strokeWidth": 0.7}
+    }
+  ],
+  "config": {"view": {"stroke": null}}
+}

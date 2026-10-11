@@ -1,41 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Drought in Australia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dry Country: drought in Australia, 1900–2025</title>
+  <meta name="description" content="How severe, how long and how often Australia's droughts have been since 1900, and how they relate to rainfall and temperature.">
+  <meta name="author" content="Aravindh Anand">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 <body>
-  <div id="map_choropleth"></div>
-  <div id="map_symbols"></div>
-  <div id="map_bins"></div>
-  <div id="chart_heatmap"></div>
-  <div id="chart_line"></div>
-  <div id="chart_waffle"></div>
-  <div id="chart_gantt"></div>
-  <div id="chart_jitter"></div>
-  <div id="chart_lollipop"></div>
-  <div id="chart_connected_scatter"></div>
-  <div id="chart_connected_dot_plot"></div>
-  <div id="chart_diverging_bar_chart"></div>
-  <div id="linked_timeline"></div>
-  <script>
-    const opts = {actions: false};
-    vegaEmbed('#map_choropleth', 'specs/map_choropleth.vl.json', opts).catch(console.error);
-    vegaEmbed('#map_symbols', 'specs/map_symbols.vl.json', opts).catch(console.error);
-    vegaEmbed('#map_bins', 'specs/map_bins.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_heatmap', 'specs/chart_heatmap.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_line', 'specs/chart_line.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_waffle', 'specs/chart_waffle.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_gantt', 'specs/chart_gantt.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_jitter', 'specs/chart_jitter.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_lollipop', 'specs/chart_lollipop.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_connected_scatter', 'specs/chart_connected_scatter.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_connected_dot_plot', 'specs/chart_connected_dot_plot.vl.json', opts).catch(console.error);
-    vegaEmbed('#chart_diverging_bar_chart', 'specs/chart_diverging_bar_chart.vl.json', opts).catch(console.error);
-    vegaEmbed('#linked_timeline', 'specs/linked_timeline.vl.json', opts).catch(console.error);
-  </script>
+
+<header class="topbar">
+  <div class="container">
+    <a class="brand" href="#top">Dry Country</a>
+    <nav aria-label="Sections">
+      <a href="#when">When</a>
+      <a href="#where">Where</a>
+      <a href="#how-often">How often</a>
+      <a href="#heat">Heat</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="container">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="row">
+      <div class="half">
+        <p class="kicker">Australian drought, 1900–2025</p>
+        <h1>Dry Country</h1>
+        <p class="byline">By Aravindh Anand · FIT3179 Data Visualisation 2 · 25th October 2026</p>
+      </div>
+      <ul class="full colour-key" aria-label="Colour key">
+        <li><span class="swatch dry"></span>Browns: drier than normal</li>
+        <li><span class="swatch wet"></span>Blue-greens: wetter than normal</li>
+        <li><span class="swatch hot"></span>Reds: hotter than normal</li>
+        <li>"Normal" always means the 1961–1990 average</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== PART 1: WHEN ===================== -->
+  <section class="part" id="when">
+    <div class="row">
+      <div class="half prose">
+        <h2>Part 1: When: A century of dry spells</h2>
+        <p class="lede">Australia's rain swings from year to year and from decade to decade. Four droughts stand out in the record: the <strong class="dry">Federation</strong>, <strong class="dry">World War II</strong>, <strong class="dry">Millennium</strong> and <strong class="dry">Tinderbox</strong> droughts.</p>
+      </div>
+      <div class="half prose">
+        <p class="how-to"><strong>How to use these charts</strong>Drag across the top chart to pick a period. The heatmap and timeline below zoom to those years, and the notes above them name the driest year and the longest drought in your selection. Double-click to reset.</p>
+      </div>
+      <div class="full chart" id="linked_timeline"></div>
+    </div>
+  </section>
+
+  <!-- ===================== PART 2: WHERE ===================== -->
+  <section class="part" id="where">
+    <div class="row">
+      <div class="half prose">
+        <h2>Part 2: Where: Every drought leaves a different footprint</h2>
+      </div>
+      <div class="half prose">
+        <p class="lede">No two droughts hit the same places. The Millennium Drought was a southern one: Victoria averaged <strong class="dry">84%</strong> of normal rain for 13 years while Western Australia had <strong class="wet">123%</strong>. The Tinderbox Drought was centred on New South Wales, which averaged <strong class="dry">62%</strong>.</p>
+      </div>
+      <div class="half chart" id="map_choropleth"></div>
+      <div class="half chart" id="map_bins_updated"></div>
+      <div class="half prose">
+      </div>
+      <div class="half chart" id="chart_waffle"></div>
+    </div>
+  </section>
+
+  <!-- ===================== PART 3: HOW OFTEN ===================== -->
+  <section class="part" id="how-often">
+    <div class="row">
+      <div class="half prose">
+        <h2>Part 3: How often and how long: Some states dry out far more often</h2>
+      </div>
+      <div class="half prose">
+        <p class="lede">Since 1900, South Australia has had <strong class="dry">40 dry years</strong> (under 80% of normal rain). Tasmania has had six. Three states recorded their driest year on record in 2019.</p>
+      </div>
+      <div class="half chart" id="map_symbols"></div>
+      <div class="half chart" id="chart_lollipop"></div>
+      <div class="full chart" id="chart_jitter_updated"></div>
+      <div class="half prose">
+        <p>The difference is how far each state's rain swings. South Australia and the Northern Territory regularly fall well below normal and rise well above it; Tasmania's rain barely moves.</p>
+      </div>
+      <div class="half prose">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PART 4: HEAT ===================== -->
+  <section class="part" id="heat">
+    <div class="row">
+      <div class="half prose">
+        <h2>Part 4: Heat: Droughts are getting hotter</h2>
+      </div>
+      <div class="half prose">
+        <p class="lede">Rain tells only half the story. Australia as a whole hasn't dried out since 1900, but since the 1970s <strong class="hot">every decade has been warmer</strong> than the one before.</p>
+      </div>
+      <div class="half chart" id="chart_connected_scatter"></div>
+      <div class="half chart" id="chart_connected_dot_plot"></div>
+      <div class="half chart" id="chart_diverging_bar_chart"></div>
+      <div class="half prose">
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+
+<script src="js/main.js"></script>
 </body>
 </html>
