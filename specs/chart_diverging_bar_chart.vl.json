@@ -3,8 +3,8 @@
   "title": {
     "text": "Dry years haven't become more common. Hot years have.",
     "subtitle": [
-      "Share of state-years in each decade that were dry (under 80% of normal rainfall, left)",
-      "or hot (more than 0.5 °C above the 1961–1990 average, right)."
+      "Share of state-years in each decade that were dry (under 80% of normal",
+      "rainfall, left) or hot (more than 0.5 °C above the 1961–1990 average, right)."
     ],
     "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
   },
@@ -33,7 +33,7 @@
   "hconcat": [
     {
       "title": {"text": "Dry years", "color": "#8c510a", "fontSize": 13, "anchor": "end"},
-      "width": 300,
+      "width": 200,
       "height": {"step": 24},
       "mark": {"type": "bar", "color": "#bf812d"},
       "encoding": {
@@ -46,7 +46,7 @@
       }
     },
     {
-      "width": 60,
+      "width": 54,
       "height": {"step": 24},
       "mark": {"type": "text", "fontSize": 11, "fontWeight": "bold", "color": "#444"},
       "encoding": {
@@ -56,7 +56,7 @@
     },
     {
       "title": {"text": "Hot years", "color": "#c0392b", "fontSize": 13, "anchor": "start"},
-      "width": 300,
+      "width": 200,
       "height": {"step": 24},
       "mark": {"type": "bar", "color": "#d6604d"},
       "encoding": {

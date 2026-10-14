@@ -3,15 +3,15 @@
   "title": {
     "text": "Every big drought hit a different part of Australia",
     "subtitle": [
-      "Average yearly rainfall during the drought, as a % of each state's 1961–1990 average.",
-      "NSW includes the ACT. Choose a drought from the menu below the map."
+      "Average yearly rainfall during the drought, as a % of each state's",
+      "1961–1990 average. NSW includes the ACT. Choose a drought below the map."
     ],
     "anchor": "start",
     "fontSize": 18,
     "subtitleFontSize": 12,
     "offset": 12
   },
-  "width": 500,
+  "width": 480,
   "height": 420,
   "params": [
     {

@@ -12,7 +12,7 @@
         ],
         "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
       },
-      "width": 760,
+      "width": 940,
       "height": 150,
       "layer": [
         {
@@ -70,7 +70,7 @@
                 "x": {"field": "year", "type": "quantitative", "title": null,
                       "scale": {"domain": [1900, 2026], "nice": false}, "axis": {"format": "d"}},
                 "y": {"field": "rain_pct", "type": "quantitative", "title": "Rainfall (% of normal)",
-                      "scale": {"domain": [40, 180]}, "axis": {"tickCount": 4}}
+                      "scale": {"domain": [40, 180]}, "axis": {"tickCount": 4, "minExtent": 140}}
               }
             },
             {
@@ -90,7 +90,7 @@
         "subtitle": "Each square is one year in one state, coloured by rainfall as a % of the 1961–1990 average. Hover for details.",
         "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 40
       },
-      "width": 760,
+      "width": 940,
       "height": {"step": 26},
       "data": {
         "url": "data/state_annual.csv",
@@ -169,7 +169,7 @@
           ],
           "mark": {"type": "text", "align": "right", "fontSize": 12, "fontStyle": "italic", "color": "#5e2a0c", "clip": false},
           "encoding": {
-            "x": {"value": 760},
+            "x": {"value": 940},
             "y": {"value": -32},
             "text": {"field": "note"}
           }
@@ -182,7 +182,7 @@
         "subtitle": "Each bar is a run of 3 or more below-average years in a row, coloured by its average rainfall (same colours as the heatmap).",
         "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 34
       },
-      "width": 760,
+      "width": 940,
       "height": {"step": 30},
       "data": {
         "url": "data/drought_runs.csv",
@@ -232,7 +232,7 @@
           ],
           "mark": {"type": "text", "align": "right", "fontSize": 12, "fontStyle": "italic", "color": "#5e2a0c", "clip": false},
           "encoding": {
-            "x": {"value": 760},
+            "x": {"value": 940},
             "y": {"value": -12},
             "text": {"field": "note"}
           }

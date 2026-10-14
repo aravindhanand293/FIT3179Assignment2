@@ -3,15 +3,16 @@
   "title": {
     "text": "South Australia dries out most often, and for longest",
     "subtitle": [
-      "Circle size: number of dry years since 1900 (under 80% of normal rainfall).",
-      "Circle colour: longest run of below-average years in a row. Hover a circle for details."
+      "Circle size: number of dry years since 1900 (under 80% of normal rain).",
+      "Circle colour: longest run of below-average years in a row.",
+      "Hover a circle for details."
     ],
     "anchor": "start",
     "fontSize": 18,
     "subtitleFontSize": 12,
     "offset": 12
   },
-  "width": 500,
+  "width": 480,
   "height": 420,
   "projection": {
     "type": "conicEqualArea",
@@ -43,7 +44,7 @@
           "type": "quantitative",
           "title": "Dry years since 1900",
           "scale": {"zero": true, "range": [0, 3500]},
-          "legend": {"values": [10, 20, 40], "symbolFillColor": "#d9c7a8", "symbolStrokeColor": "#8c6d46"}
+          "legend": {"values": [10, 20, 40], "orient": "bottom", "direction": "horizontal", "symbolFillColor": "#d9c7a8", "symbolStrokeColor": "#8c6d46"}
         },
         "color": {
           "field": "run_band",
@@ -53,7 +54,7 @@
             "domain": ["Under 8 years", "8–10 years", "11–14 years", "15+ years"],
             "range": ["#e6c07b", "#c9893a", "#9c5419", "#5e2a0c"]
           },
-          "legend": {"symbolType": "circle", "symbolSize": 200}
+          "legend": {"symbolType": "circle", "symbolSize": 160, "orient": "bottom-left", "direction": "vertical", "offset": 4}
         },
         "order": {"field": "dry_years", "sort": "descending"},
         "tooltip": [

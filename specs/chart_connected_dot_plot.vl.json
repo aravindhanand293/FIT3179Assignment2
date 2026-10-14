@@ -2,10 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": "Two droughts, 80 years apart: one cool, one hot",
-    "subtitle": "Average temperature in each state during the World War II Drought and the Tinderbox Drought, compared with the 1961–1990 average.",
+    "subtitle": ["Average temperature in each state during the World War II Drought and", "the Tinderbox Drought, compared with the 1961–1990 average."],
     "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
   },
-  "width": 560,
+  "width": 370,
   "height": {"step": 36},
   "data": {
     "url": "data/state_annual.csv",
@@ -41,7 +41,7 @@
         "color": {
           "field": "drought", "type": "nominal", "title": null,
           "scale": {"domain": ["World War II Drought (1937–1945)", "Tinderbox Drought (2017–2019)"], "range": ["#6b8fb3", "#c0392b"]},
-          "legend": {"orient": "top", "direction": "horizontal", "labelLimit": 300}
+          "legend": {"orient": "top", "direction": "vertical", "labelLimit": 300}
         },
         "tooltip": [
           {"field": "state", "type": "nominal", "title": "State"},

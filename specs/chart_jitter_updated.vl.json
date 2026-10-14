@@ -8,7 +8,7 @@
     ],
     "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
   },
-  "width": 760,
+  "width": 940,
   "height": {"step": 44},
   "data": {
     "url": "data/state_annual.csv",
@@ -93,7 +93,7 @@
       ],
       "mark": {"type": "text", "align": "right", "baseline": "bottom", "fontSize": 13, "fontStyle": "italic", "fontWeight": "bold", "color": "#5e2a0c"},
       "encoding": {
-        "x": {"value": 760},
+        "x": {"value": 940},
         "y": {"value": -6},
         "yOffset": null,
         "text": {"field": "note"}

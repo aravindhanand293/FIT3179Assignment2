@@ -2,10 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": "The driest year on record in each state",
-    "subtitle": "How far rainfall fell below normal in each state's driest year since 1900. Three states had their driest year in 2019.",
+    "subtitle": ["How far rainfall fell below normal in each state's driest year since 1900.", "Three states had their driest year in 2019."],
     "anchor": "start", "fontSize": 18, "subtitleFontSize": 12, "offset": 12
   },
-  "width": 560,
+  "width": 370,
   "height": {"step": 36},
   "data": {
     "url": "data/state_annual.csv",

@@ -3,15 +3,16 @@
   "title": {
     "text": "The 2017–2019 drought ignored state borders",
     "subtitle": [
-      "Rainfall over 2017–2019 as a % of the 1961–1990 average, averaged into squares. Hover a square for its value.",
-      "Switch the square size below the map to check the pattern doesn't depend on how big the squares are."
+      "Rainfall over 2017–2019 as a % of the 1961–1990 average, averaged into",
+      "squares. Hover a square for its value. Switch the square size below the",
+      "map to check the pattern doesn't depend on how big the squares are."
     ],
     "anchor": "start",
     "fontSize": 18,
     "subtitleFontSize": 12,
     "offset": 12
   },
-  "width": 500,
+  "width": 460,
   "height": 420,
   "params": [
     {
