@@ -14,6 +14,7 @@
 
   /* Colours with one meaning each, used the same way in every chart */
   --dry: #8c510a;        /* drier than normal */
+  --normal: #f5d93f;     /* close to normal (95–105%) */
   --wet: #35978f;        /* wetter than normal */
   --hot: #c0392b;        /* hotter than normal */
   --long: #6a51a3;       /* how long a drought lasted (symbol map only) */
@@ -178,6 +179,7 @@ h1 {
 }
 
 .swatch.dry { background: var(--dry); }
+.swatch.normal { background: var(--normal); }
 .swatch.wet { background: var(--wet); }
 .swatch.hot { background: var(--hot); }
 

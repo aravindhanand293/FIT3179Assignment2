@@ -11,7 +11,7 @@
     "url": "data/waffle_2017_2019.csv",
     "format": {"type": "csv", "parse": {"col": "number", "row": "number", "pct_of_land": "number"}}
   },
-  "mark": {"type": "rect", "stroke": "white", "strokeWidth": 2},
+  "mark": {"type": "rect", "stroke": "#f6f3ec", "strokeWidth": 2},
   "encoding": {
     "x": {"field": "col", "type": "ordinal", "axis": null},
     "y": {"field": "row", "type": "ordinal", "axis": null},
@@ -21,7 +21,7 @@
       "title": "Rainfall (% of normal)",
       "scale": {
         "domain": ["Under 60%", "60–80%", "80–95%", "95–105%", "105–120%", "120% or more"],
-        "range": ["#8c510a", "#bf812d", "#dfc27d", "#f2efe6", "#80cdc1", "#35978f"]
+        "range": ["#8c510a", "#b8742a", "#d9a24e", "#f5d93f", "#56aa9d", "#21716a"]
       },
       "legend": {"orient": "right", "symbolType": "square", "symbolSize": 200, "symbolStrokeColor": "#b8ae9c"}
     },

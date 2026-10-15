@@ -54,7 +54,7 @@
           "field": "year_type", "type": "nominal", "title": null,
           "scale": {
             "domain": ["Dry year (under 80%)", "Near normal (80–120%)", "Wet year (over 120%)"],
-            "range": ["#a6611a", "#c9c3b8", "#35978f"]
+            "range": ["#a6611a", "#f5d93f", "#35978f"]
           },
           "legend": {"orient": "top", "direction": "horizontal"}
         },

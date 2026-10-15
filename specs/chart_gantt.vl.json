@@ -29,7 +29,7 @@
         },
         "color": {
           "field": "mean_pct", "type": "quantitative", "title": "Average rainfall during the run (% of normal)",
-          "scale": {"type": "threshold", "domain": [75, 85, 95], "range": ["#8c510a", "#bf812d", "#dfc27d", "#ece2c6"]},
+          "scale": {"type": "threshold", "domain": [75, 85, 95], "range": ["#8c510a", "#b8742a", "#d9a24e", "#f5d93f"]},
           "legend": {"orient": "bottom", "direction": "horizontal", "titleLimit": 400}
         },
         "tooltip": [

@@ -44,7 +44,7 @@
       }
     },
     {
-      "mark": {"type": "circle", "size": 120, "opacity": 1, "stroke": "white", "strokeWidth": 1},
+      "mark": {"type": "circle", "size": 120, "opacity": 1, "stroke": "#f6f3ec", "strokeWidth": 1},
       "encoding": {
         "x": {"field": "rain", "type": "quantitative"},
         "y": {"field": "temp", "type": "quantitative"},

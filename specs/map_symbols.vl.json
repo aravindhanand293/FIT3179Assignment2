@@ -25,7 +25,7 @@
         "url": "data/STE_2021_AUST_GDA2020.json",
         "format": {"type": "topojson", "feature": "states"}
       },
-      "mark": {"type": "geoshape", "fill": "#ece6da", "stroke": "white", "strokeWidth": 1}
+      "mark": {"type": "geoshape", "fill": "#ece6da", "stroke": "#f6f3ec", "strokeWidth": 1}
     },
     {
       "data": {"url": "data/state_dry_stats.csv"},
@@ -35,7 +35,7 @@
           "as": "run_band"
         }
       ],
-      "mark": {"type": "circle", "opacity": 0.9, "stroke": "white", "strokeWidth": 1.5},
+      "mark": {"type": "circle", "opacity": 0.9, "stroke": "#f6f3ec", "strokeWidth": 1.5},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
