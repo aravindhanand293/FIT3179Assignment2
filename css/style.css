@@ -183,6 +183,15 @@ h1 {
 .swatch.wet { background: var(--wet); }
 .swatch.hot { background: var(--hot); }
 
+/* Colour key: sits beside the title, one colour per line */
+.key-panel { align-self: end; }
+.key-panel .colour-key {
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 3px solid var(--ink);
+}
+
 /* ---------- Sections ---------- */
 section.part {
   padding-top: 72px;
